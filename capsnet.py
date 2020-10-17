@@ -98,7 +98,7 @@ class Decoder(nn.Module):
 
     def forward(self, x, data):
         classes = torch.sqrt((x ** 2).sum(2))
-        classes = F.softmax(classes, dim=0)
+        classes = F.softmax(classes, dim=1)
 
         _, max_length_indices = classes.max(dim=1)
         masked = Variable(torch.sparse.torch.eye(10))
