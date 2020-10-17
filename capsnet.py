@@ -34,8 +34,8 @@ class PrimaryCaps(nn.Module):
         u = u.view(x.size(0), self.num_routes, -1)
         return self.squash(u)
 
-    def squash(self, input_tensor):
-        squared_norm = (input_tensor ** 2).sum(-1, keepdim=True)
+    def squash(self, input_tensor, epsilon=1e-7):
+        squared_norm = (input_tensor ** 2 + epsilon).sum(-1, keepdim=True)
         output_tensor = squared_norm * input_tensor / ((1. + squared_norm) * torch.sqrt(squared_norm))
         return output_tensor
 
@@ -75,8 +75,8 @@ class DigitCaps(nn.Module):
 
         return v_j.squeeze(1)
 
-    def squash(self, input_tensor):
-        squared_norm = (input_tensor ** 2).sum(-1, keepdim=True)
+    def squash(self, input_tensor, epsilon=1e-7):
+        squared_norm = (input_tensor ** 2 + epsilon).sum(-1, keepdim=True)
         output_tensor = squared_norm * input_tensor / ((1. + squared_norm) * torch.sqrt(squared_norm))
         return output_tensor
 
